@@ -28,10 +28,12 @@ public class SkellyScript : AgentScript {
 		target = null;
 		targetted = false;
 
-		GetComponent<Animation>()["dance"].wrapMode = WrapMode.Loop;
-		GetComponent<Animation>()["idle"].wrapMode = WrapMode.Loop;
-		GetComponent<Animation>()["run"].wrapMode = WrapMode.Loop;
-		GetComponent<Animation>()["waitingforbattle"].wrapMode = WrapMode.Loop;
+		myAnimation = GetComponent<Animation>();
+
+		myAnimation["dance"].wrapMode = WrapMode.Loop;
+		myAnimation["idle"].wrapMode = WrapMode.Loop;
+		myAnimation["run"].wrapMode = WrapMode.Loop;
+		myAnimation["waitingforbattle"].wrapMode = WrapMode.Loop;
 	}
 	
 	// Update is called once per frame
@@ -130,21 +132,21 @@ public class SkellyScript : AgentScript {
 	protected override void HandleAnimations() {
 		if(alive) {
 			if(!dance) {
-				if(!GetComponent<Animation>().IsPlaying("attack")) {
+				if(!myAnimation.IsPlaying("attack")) {
 					if(velocity.sqrMagnitude > 0) GetComponent<Animation>().Play("run");
-					else GetComponent<Animation>().Play("waitingforbattle");
+					else myAnimation.Play("waitingforbattle");
 
 					if(attacking && canAttack) {
 						StartCoroutine(AttackDelay());
 					}
 				}
 			}
-			else GetComponent<Animation>().Play("dance");
+			else myAnimation.Play("dance");
 		}
 	}
 
 	private IEnumerator AttackDelay() {
-		GetComponent<Animation>().Play("attack");
+		myAnimation.Play("attack");
 		canAttack = false;
 		yield return new WaitForSeconds(.75f);
 		KnightScript ks = target.GetComponent<KnightScript>();
@@ -170,7 +172,7 @@ public class SkellyScript : AgentScript {
 		if(health <= 0) {
 			alive = false;
 			if(target != null) target.GetComponent<KnightScript>().targetted = false;
-			GetComponent<Animation>().Play("die");
+			myAnimation.Play("die");
 			wm.skellies.Remove(transform);
 			characterController.GetComponent<Collider>().enabled = false;
 		}

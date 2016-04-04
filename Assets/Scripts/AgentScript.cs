@@ -31,6 +31,8 @@ public abstract class AgentScript : MonoBehaviour {
 	protected Vector3 acceleration;
 	protected Vector3 velocity;
 
+	protected Animation myAnimation;
+
 	public bool Alive {
 		get { return alive; }
 	}

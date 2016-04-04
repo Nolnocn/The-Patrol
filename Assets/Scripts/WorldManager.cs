@@ -15,11 +15,9 @@ public class WorldManager : MonoBehaviour {
 	public Vector3[,] flowField;
 
 	private bool spawnSkellies;
-	private bool endMessage;
 
 	// Use this for initialization
 	void Start () {
-		endMessage = true;
 		spawnSkellies = false;
 		GetTrees();
 		CreateFlowField();
@@ -85,7 +83,6 @@ public class WorldManager : MonoBehaviour {
 		if(knights.Count <= 0) {
 			foreach(Transform skelly in skellies) {
 				skelly.GetComponent<SkellyScript>().dance = true;
-				endMessage = true;
 			}
 		}
 	}

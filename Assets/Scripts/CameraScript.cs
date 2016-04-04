@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class CameraScript : MonoBehaviour {
@@ -7,22 +8,27 @@ public class CameraScript : MonoBehaviour {
 	private bool hideGUI;
 	private bool showCredits;
 
+	private Rigidbody myRigidbody;
+
 	// Use this for initialization
 	void Start () {
 		freeCam = true;
 		hideGUI = false;
 		showCredits = false;
+
+		myRigidbody = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetMouseButtonDown(0)) {
-			Screen.lockCursor = true;
+			//Screen.lockCursor = true;
+			Cursor.lockState = CursorLockMode.Locked;
 		}
 
 		if(Input.GetKeyDown(KeyCode.H)) hideGUI = !hideGUI;
 		else if(Input.GetKeyDown(KeyCode.C)) showCredits = !showCredits;
-		else if(Input.GetKeyDown(KeyCode.R)) Application.LoadLevel(0);
+		else if(Input.GetKeyDown(KeyCode.R)) SceneManager.LoadScene(0);
 
 		if(freeCam) {
 			Vector3 mouseOffset = new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0f);
@@ -32,7 +38,7 @@ public class CameraScript : MonoBehaviour {
 			transform.Translate(5 * Time.deltaTime * new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")));
 
 			if(Input.anyKey == false) {
-				GetComponent<Rigidbody>().velocity = Vector3.zero;
+				myRigidbody.velocity = Vector3.zero;
 			}
 		}
 
